@@ -5,6 +5,7 @@
 1. [Chapter 1: IDLE Programming](#Chapter1)
 2. [Chapter 2: All About Strings](#Chapter2)
 3. [Chapter 3: Lists, Tuples and Dictionaries](#Chapter3)
+4. [Chapter 4: Conditional Statements](#Chapter4)
 
 ## Chapter 1: IDLE Programming<a name="Chapter1"></a>
 
@@ -57,3 +58,30 @@ print("Graph a point at where x={x} and y={y}".format(**xy))
 ```
 
 ## Chapter 3: Lists, Tuples and Dictionaries<a name"Chapter3"></a>
+Other important data types in python are:
+
+### Lists
+Similar to arrays in other languages. To create an empty List we can do it with `my_list = []` or `my_list1 = List()`. To put elements inside the list, you can do it like this:
+
+```python
+my_list1 = ["1"]
+my_list2 = ["a", 1, "Python", 5]
+my_list3 = [my_list1, my_list2] # This will be [["1"], ["a", 1, "Python", 5]]
+```
+
+To combine two lists, we do it with the extend method like in `my_list1.extend(my_list2)` which is a flat map operation. A list can be sorted with `myList.sort()` which sort the current list (returns None, but the original list is affected). A list can be sliced in the same way than a string.
+
+### Tuples
+Similar to list, but these are immutable objects. To create them use parentheses instead of brackets, like in `myTuple = (1,2,3)` or with the tuple method `myTuple = tuple(["a","b","c"]) # This is an example of casting a List to a tuple`.
+
+### Dictionaries
+A dictionary is basically a hash table or a hash map where the keys are unordered immutable types. use `dic.keys` to return the list of keys and `key in dic` to search for the key named _key_ inside the _dic_ dictionary (in spark 2.3 the method is `dic has_key key`). To create an empty dictionary use `myDictionary = {}` or `myDictionary = dic()`. Example of accessing a value inside a dictionay:
+
+```python
+my_dict = {"name":"Mike", "address":"123 Happy Way"}
+my_dict["name"] # Will print 'Mike'
+```
+
+The keys function returns a list in python 2, and a _view_ in python 3 that would change if the map does too.
+
+## Chapter 4: Conditional Statements<a name="Chapter4"></a>
