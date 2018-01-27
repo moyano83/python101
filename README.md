@@ -10,6 +10,9 @@
 6. [Chapter 6: Python Comprehensions](#Chapter6)
 7. [Chapter 7: Exception Handling](#Chapter7)
 8. [Chapter 8: Working with Files](#Chapter8)
+9. [Chapter 9: Importing](#Chapter9)
+10. [Chapter 10: Functions](#Chapter10)
+11. [Chapter 11: Classes](#Chapter11)
 
 ## Chapter 1: IDLE Programming<a name="Chapter1"></a>
 
@@ -226,3 +229,166 @@ finally:
 ```
 
 ## Chapter 8: Working with Files<a name="Chapter8"></a>
+
+Python has a built in function called _open_ to read from a file, the default mode is read only. Relative paths are to the script that is running. If we want to pass unescaped strings to the open method, we ned to prepend the string with an 'r'.
+
+```python
+handle = open(r"C:\Users\mike\py101book\data\test.txt", "r") #if not prepended with r, the string will print a tab in '(\t)est.txt', the second argument is to explicitely tell python to open the file in read mode.
+content = handle.read() #This reads all the file, returns a List of strings representing the lines
+line = handle.readline() #This reads a single line
+handle.close() # Always close the file after reading it 
+``` 
+
+The best way to read a file by lines is with a for loop:
+
+```python
+handle = open("MyFile.txt")
+for line in handle:
+    print(line)
+handle.close()
+```
+
+Another way to read files is with a while loop, for example:
+
+```python
+handle = open("MyFile.pdf", "rb") #rb means read-binary
+while True:
+    data = handle.read(1024) #Reads 1024 bites of data
+    if not data:
+        break
+```
+
+A file can also be writen:
+
+```python
+try:
+    handle = open("Test.txt", "w") #w for write mode and wb for write-binary
+    handle.write("This is a test file")
+except IOError:
+    print("Something bad happened")
+finally:
+    handle.close() 
+```
+
+Python has a neat little builtin called with which you can use to simplify reading and writing files. The with operator creates what is known as a context manager in Python that will automatically close the file for you when you are done processing it:
+
+```python
+try:
+with open("test.txt") as file_handler:
+    for line in file_handler:
+        print(line)
+except IOError:
+    print("Something bad happened")
+```
+
+## Chapter 9: Importing<a name="Chapter9"></a>
+
+A module is a single importable Python file whereas a package is made up of two or more modules. A package can be imported the same way a module is.
+
+```python
+import math
+math.sqrt(4)
+```
+
+The syntax to use a module function is _module_name.method_name(argument)_. You can also import only some functions of a module:
+
+```python
+from math import sqrt, cos
+from math import * # This is discouraged as it can lead to namespace collisions
+```
+
+## Chapter 10: Functions<a name="Chapter10"></a>
+
+Example of function in python:
+
+```python
+def hello():
+    print("Hello World")
+```
+
+It is possible to define an stub for a function, for example to derive the implementation to the future:
+
+```python
+def myFunc():
+    pass # The pass statement is a null operation that doesn't do anything.
+```
+
+Functions can take parameters:
+
+```python
+def add(a,b):
+    return a+b
+```
+
+All functions return something, if no return statement is provided, then the function will return None. When calling the function, you can pass positional arguments like in `add(2,3)`, or keyword arguments like in `add(b=1, a=2)`. Default values can be specified in function creation like in:
+
+```python
+def add(a=1,b=2): #There is no need to define default values for all parameters add(a=1,b) is also valid
+    return a+b
+```
+ 
+If the previous function is called without arguments, then a 3 will be returned. You can also set up functions to accept any number of arguments or keyword arguments:
+
+```python
+#The first is to define an infinite number of params and the second to define an infinite number of keyword params
+def many(*args, **kwargs): 
+    print(args)
+    print(kwargs)
+
+many(1, 2, 3, name="Mike", job="programmer") #Example of method call 
+```
+
+The scope of the variables defined in a function is local to the function.
+
+## Chapter 11: Classes<a name="Chapter11"></a>
+
+Everything in python is an object because everything is based on a class. An example of this is below:
+
+```python
+class Vehicle(object): 
+    """docstring"""
+def __init__(self):
+    """Constructor"""
+    pass
+```
+
+In the above example the object keyword after the class name is what the class is based on or inheriting from (the parent class). It the class does not inherit from other, you can leave out the parentheses and parent class: `class Veicle:...`.
+If we want the class to have attributes, we define them inside the `__init__` method:
+
+```python
+class Vehicle(object):
+    """docstring"""
+
+    def __init__(self, color, doors, tires, vType):
+        """Constructor"""
+        self.color = color
+        self.doors = doors
+        self.tires = tires
+        self.vType = vType
+    
+    def drive(self):
+       """
+       Drive the car 
+       """
+       return "I'm driving!"
+       
+    def brake(self):
+        """
+        Stop the car 
+        """
+        return "%s braking" % self.vType
+```
+
+Python classes need a way to refer to themselves. The word self is a way to describe itself. Given the above, we can create subclasses that inherit the behaviour like in:
+
+```python
+class Car(Vehicle):
+
+ def brake(self):
+    """
+    Stop the car 
+    """
+    return "Stopping the car"
+```
+
+In the above example, the car class inherits the `__init__` and `drive` methods from its parent.
