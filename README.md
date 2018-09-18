@@ -13,6 +13,8 @@
 9. [Chapter 9: Importing](#Chapter9)
 10. [Chapter 10: Functions](#Chapter10)
 11. [Chapter 11: Classes](#Chapter11)
+12. [Chapter 12: Introspection](#Chapter12)
+
 
 ## Chapter 1: IDLE Programming<a name="Chapter1"></a>
 
@@ -24,6 +26,7 @@ print("Hello World!") # versions 2.x don't use the parentheses
 ```
 
 Importing packages in a python script adds new features to it.
+
 
 ## Chapter 2: All About Strings<a name="Chapter2"></a>
 
@@ -73,6 +76,7 @@ xy = {"x":0, "y":10}
 print("Graph a point at where x={x} and y={y}".format(**xy))
 ```
 
+
 ## Chapter 3: Lists, Tuples and Dictionaries<a name"Chapter3"></a>
 
 Other important data types in python are:
@@ -108,6 +112,7 @@ my_dict["name"] # Will print 'Mike'
 
 The keys function returns a list in python 2, and a _view_ in python 3 that would change if the map does too.
 
+
 ## Chapter 4: Conditional Statements<a name="Chapter4"></a>
 
 Python do not have the case/switch construction, but has the if/elif/else statement. Python cares about indentation 
@@ -138,6 +143,7 @@ if __name__ == "__main__":
     # Do Something
 ```
 This tells Python that you only want to run the following code if this program is executed as a standalone file.
+
 
 ## Chapter 5: Loops<a name="Chapter5"></a>
 
@@ -172,6 +178,7 @@ while number < 10:
     number +=1 # python also supports -= and *=
 ```
 
+
 ## Chapter 6: Python Comprehensions<a name="Chapter6"></a>
 
 A list comprehension is basically a one line for loop that produces a Python list data structure:
@@ -203,6 +210,7 @@ the _\[_ and _\]_ characters by the _{_ and _}_ characters.
 my_list=[1,2,2,3,4,5,5,7,8]
 my_set = {x for x in my_list} # This is similar to set(my_list) which yields set([1,2,3,4,5,7,8])
 ```
+
 
 ## Chapter 7: Exception Handling<a name="Chapter7"></a>
 
@@ -252,6 +260,7 @@ else:
 finally:
     print("The finally statement ran!")
 ```
+
 
 ## Chapter 8: Working with Files<a name="Chapter8"></a>
 
@@ -315,6 +324,7 @@ except IOError:
     print("Something bad happened")
 ```
 
+
 ## Chapter 9: Importing<a name="Chapter9"></a>
 
 A module is a single importable Python file whereas a package is made up of two or more modules. A package can be 
@@ -332,6 +342,7 @@ of a module:
 from math import sqrt, cos
 from math import * # This is discouraged as it can lead to namespace collisions
 ```
+
 
 ## Chapter 10: Functions<a name="Chapter10"></a>
 
@@ -378,6 +389,7 @@ many(1, 2, 3, name="Mike", job="programmer") #Example of method call
 ```
 
 The scope of the variables defined in a function is local to the function.
+
 
 ## Chapter 11: Classes<a name="Chapter11"></a>
 
@@ -433,3 +445,24 @@ class Car(Vehicle):
 ```
 
 In the above example, the car class inherits the `__init__` and `drive` methods from its parent.
+
+
+## Chapter 12: Introspection<a name="Chapter12"></a>
+
+Python can tell you what type of variable you have or what type is returned from a function:
+
+```python
+x="test"
+
+type(x) # Returns <class 'str'>
+```
+
+The _dir_ keyword is used to tell the programmer what attributes and methods there are in the passed in object. You 
+can also pass a module to the _dir_ function:
+
+```python
+dir("test") # Returns  ['__add__', '__class__', '__contains__', ...]
+```
+
+You can use the python _help_ utility to a shell (prepended by _>_ and not _>>>_) and get insights of the various 
+modules, keywords and topics found in Python.
