@@ -15,6 +15,10 @@
 11. [Chapter 11: Classes](#Chapter11)
 12. [Chapter 12: Introspection](#Chapter12)
 13. [Chapter 13: The csv Module](#Chapter13)
+14. [Chapter 14: configparser](#Chapter14)
+15. [Chapter 15: Logging](#Chapter15)
+16. [Chapter 16: The os Module](#Chapter16)
+
 
 ## Chapter 1: IDLE Programming<a name="Chapter1"></a>
 
@@ -527,7 +531,6 @@ def csv_dict_writer(path, fieldnames, data):
         for row in data:
             writer.writerow(row)
 
-
 if __name__ == "__main__":
     # Example of how to write with the write object
     data = ["first_name,last_name,city".split(","),
@@ -550,3 +553,110 @@ if __name__ == "__main__":
     path = "dict_output.csv"
     csv_dict_writer(path, fieldnames, my_list)
 ```
+
+
+## Chapter 14: configparser<a name="Chapter14"></a>
+
+An example of how to create a config file:
+
+```python
+import configparser
+
+def createConfig(path):
+    """
+    Create a config file
+    """
+    config = configparser.ConfigParser()
+    config.add_section("Settings")
+    config.set("Settings", "font", "Courier")
+    config.set("Settings", "font_size", "10")
+    config.set("Settings", "font_style", "Normal")
+    config.set("Settings", "font_info", "You are using %(font)s at %(font_size)s pt")
+
+    with open(path, "w") as config_file:
+        config.write(config_file)
+        
+def crudConfig(path):
+    """
+    Create, read, update, delete config
+    """
+    if not os.path.exists(path):
+        createConfig(path)
+    
+    config = configparser.ConfigParser()
+    config.read(path)
+    
+    # read some values from the config
+    font = config.get("Settings", "font")
+    font_size = config.get("Settings", "font_size")
+    
+    # change a value in the config
+    config.set("Settings", "font_size", "12")
+    
+    # delete a value from the config
+    config.remove_option("Settings", "font_style")
+    
+    # write changes back to the config file
+    with open(path, "w") as config_file:
+        config.write(config_file)
+
+
+if __name__ == "__main__":
+    path = "settings.ini"
+    createConfig(path)
+    crudConfig(path)
+```
+
+The configparser module also allows interpolation, which means you can use some options to build another option:
+
+```python
+config = configparser.ConfigParser()
+config.read(path)
+
+print(config.get("Settings", "font_info")) # "You are using Courier at 12 pt" 
+print(config.get("Settings", "font_info", vars={"font": "Arial", "font_size": "10"})) # "You are using Arial at 10 pt"
+```
+
+
+## Chapter 15: Logging<a name="Chapter15"></a>
+
+Creating a log with the logging module is easy:
+
+```python
+import logging 
+
+# If you don’t use basicConfig, then the logging module will output to the console / stdout.
+logging.basicConfig(filename="sample.log", level=logging.INFO) # add filemode="w" to overwrite
+
+logging.debug("This is a debug message") # Has modes 'debug', 'info', 'warning', 'error' and 'critical'
+
+log = logging.getLogger("ex") # It is possible to get a logger object 
+```
+
+If you want all your modules to log in the same place, you can either configure it on the main method of the program 
+and then call the logging method directly within the modules, or do it like this:
+
+```python
+logger = logging.getLogger("exampleApp")
+logger.setLevel(logging.INFO)
+
+# create the logging file handler
+fh = logging.FileHandler("example.log")
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+
+18 # add handler to logger object
+logger.addHandler(fh)
+
+logger.info("Program started")
+result = otherMod2.add(7, 8)
+logger.info("Done!")    
+```
+
+The previous example would print the name of the logger in each of the lines. You can configure it using methods 
+(loggers, formatters, handlers), you can use a configuration file and pass it to `fileConfig()` or you can create a 
+dictionary of configuration information and pass it to the `dictConfig()` function.
+
+
+## Chapter 16: The os Module<a name="Chapter16"></a>
