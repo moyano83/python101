@@ -18,7 +18,7 @@
 14. [Chapter 14: configparser](#Chapter14)
 15. [Chapter 15: Logging](#Chapter15)
 16. [Chapter 16: The os Module](#Chapter16)
-
+17. [Chapter 17: The email/smtplib Module](#Chapter17)
 
 ## Chapter 1: IDLE Programming<a name="Chapter1"></a>
 
@@ -660,3 +660,32 @@ dictionary of configuration information and pass it to the `dictConfig()` functi
 
 
 ## Chapter 16: The os Module<a name="Chapter16"></a>
+
+The os module has many modules, which deals with the operating system functions. To use the module import _os_. Example:
+
+```python
+os.name # This tells us that our Python instance is running on a Windows box
+os.environ # Returns a dictionary of the user’s env variables. Access individual variables like os.environ["TMP"]
+os.getenv("TMP") # Equivalent to os.environ["TMP"]
+os.chdir(r"/tmp") # Function allows us to change the directory that we’re currently running our Python session in
+os.getcwd() # Returns the current dir
+os.mkdir("test") # Creates a folder test in the current directory. Absolute paths are accepted too
+os.mkdirs("/tmp/test/folder") # Creates all intermediate folders in the provided path
+os.remove("test.txt") # Deletes the file test.txt
+os.rmdir("pytest") # Deletes the folder pytest
+os.rename(src, dst) # Renames the folder/file src to dst
+os.startfile(file) # Method allows us to “start” a file with its associated program. Like double click in a program
+os.walk(path) # Used to get access to all its sub-directories and files
+
+# Functionality contained in the os.path module
+os.path.basename(path) # Returns the filename of a path
+os.path.dirname(path) # Returns just the directory portion of the path
+os.path.exists(path) # Returns a boolean indicating if the file or folder exists or not
+os.path.isdir(path) # Returns a boolean indicating if the content of the variable path is a directory
+os.path.isfile(path) # Returns a boolean indicating if the content of the variable path is a file
+os.path.join(path1, path2) # Joins one or more path components together using the appropriate separator
+os.path.split(path) # Split a path into a tuple that contains the directory and the file
+```
+
+
+## Chapter 17: The email/smtplib Module<a name="Chapter17"></a>
