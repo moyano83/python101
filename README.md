@@ -14,7 +14,7 @@
 10. [Chapter 10: Functions](#Chapter10)
 11. [Chapter 11: Classes](#Chapter11)
 12. [Chapter 12: Introspection](#Chapter12)
-
+13. [Chapter 13: The csv Module](#Chapter13)
 
 ## Chapter 1: IDLE Programming<a name="Chapter1"></a>
 
@@ -466,3 +466,87 @@ dir("test") # Returns  ['__add__', '__class__', '__contains__', ...]
 
 You can use the python _help_ utility to a shell (prepended by _>_ and not _>>>_) and get insights of the various 
 modules, keywords and topics found in Python.
+
+
+## Chapter 13: The csv Module<a name="Chapter13"></a>
+
+There are two ways to read a CSV file. You can use the csv module’s reader function or you can use the DictReader class.
+
+```python
+import csv
+
+# Function that accepts a file object
+def csv_reader(file_obj): 
+    """
+    Read a csv file
+    """
+    reader = csv.reader(file_obj) # This returns a reader object 
+    for row in reader:
+        print(" ".join(row)) # Join the fields with an space
+
+def csv_dict_reader(file_obj):
+    """
+    Read a CSV file using csv.DictReader
+    """
+    reader = csv.DictReader(file_obj, delimiter=',') # The delimiter parameter is not mandatory but desirable
+    for line in reader: #  Each line in the reader object is a dictionary
+        print(line["first_name"]),
+        print(line["last_name"])
+
+if __name__ == "__main__":
+    csv_path = "someFile.csv" 
+    with open(csv_path, "r") as f_obj:
+        csv_reader(f_obj) # Example of how to call csv_reader function
+        csv_dict_reader(f_obj) # Example of how to call csv_dict_reader function
+```
+
+As with the read functionality, the write functionality is available in both the _writer+ function or the _DictWriter_ 
+class:
+
+```python
+import csv
+# Data is a list of lists created at the bottom of this script 
+def csv_writer(data, path): 
+    """
+    Write data to a CSV file path
+    """
+    # The csv_writer function opens the path that we pass in and creates a csv writer object. Then we loop over the 
+    # nested list structure and write each line out to disk 
+    with open(path, "w", newline='') as csv_file:
+        writer = csv.writer(csv_file, delimiter=',') 
+        for line in data:
+            writer.writerow(line)
+            
+def csv_dict_writer(path, fieldnames, data): 
+    """
+    Writes a CSV file using DictWriter
+    """
+    with open(path, "w", newline='') as out_file:
+        writer = csv.DictWriter(out_file, delimiter=',', fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+
+if __name__ == "__main__":
+    # Example of how to write with the write object
+    data = ["first_name,last_name,city".split(","),
+            "Tyrese,Hirthe,Strackeport".split(","),
+            "Jules,Dicki,Lake Nickolasville".split(","),
+            "Dedric,Medhurst,Stiedemannberg".split(",")
+            ]
+    path = "output.csv"
+    csv_writer(data, path)
+
+    # Example of how to write with the dictWriter
+    my_list = [] 
+    fieldnames = data[0] 
+    # This loop can be replaced by the writerows method in the DictWriter class
+    for values in data[1:]:
+        # Python builtins to create dictionary
+        # The zip method takes two iterators and turn them into a list of tuples
+        inner_dict = dict(zip(fieldnames, values))
+        my_list.append(inner_dict)
+    path = "dict_output.csv"
+    csv_dict_writer(path, fieldnames, my_list)
+```
