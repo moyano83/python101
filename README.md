@@ -19,6 +19,8 @@
 15. [Chapter 15: Logging](#Chapter15)
 16. [Chapter 16: The os Module](#Chapter16)
 17. [Chapter 17: The email/smtplib Module](#Chapter17)
+18. [Chapter 18: The sqlite Module](#Chapter18)
+
 
 ## Chapter 1: IDLE Programming<a name="Chapter1"></a>
 
@@ -689,3 +691,69 @@ os.path.split(path) # Split a path into a tuple that contains the directory and 
 
 
 ## Chapter 17: The email/smtplib Module<a name="Chapter17"></a>
+
+Python provides  the email and smtplib modules to deal with emails. Here is an example of how to send an email:
+
+```python
+import smtplib
+
+# Most of this configuration can come from a config file
+HOST = "mySMTP.server.com"
+SUBJECT = "Test email from Python"
+# To send this email to multiple accounts, just join the emails with a comma without spaces like email1,email2...
+TO = "mike@someAddress.org"
+FROM = "python@mydomain.com"
+CC = "email1@email.com" # Optional parameter
+BCC = "email2@email.com" # Optional parameter
+text = "Python 3.4 rules them all!"
+
+# These lines are combined using a carriage return "\r" plus a new line "\n"
+BODY = "\r\n".join(("From: %s" % FROM, "To: %s" % TO,"CC: %s" % CC,"BCC: %s" % BCC, "Subject: %s" % SUBJECT , "", text))
+
+server = smtplib.SMTP(HOST)
+# If your server requires authentication, then you’ll need to add this code here: server.login(username, password)
+server.sendmail(FROM, [TO], BODY)
+server.quit()
+```
+
+It is also possible to add attachments to the emails, for that we use the python's email module:
+
+```python
+from email import encoders
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.utils import formatdate
+
+# We need to define the attachment, the variable file_to_attach is the path to the file
+header = 'Content-Disposition', 'attachment; filename="%s"' % file_to_attach
+
+
+# create the message
+msg = MIMEMultipart()
+msg["From"] = from_addr
+msg["Subject"] = subject
+msg["Date"] = formatdate(localtime=True)
+if body_text:
+    msg.attach( MIMEText(body_text) )
+
+msg["To"] = ', '.join(to_emails)
+msg["cc"] = ', '.join(cc_emails)
+
+attachment = MIMEBase('application', "octet-stream")
+try:
+    with open(file_to_attach, "rb") as fh:
+        data = fh.read()
+        attachment.set_payload( data )
+        encoders.encode_base64(attachment)
+        attachment.add_header(*header)
+        msg.attach(attachment)
+except IOError:
+    msg = "Error opening attachment file %s" % file_to_attach
+    print(msg)
+    
+server.sendmail(from_addr, emails, msg.as_string())
+```
+
+
+## Chapter 18: The sqlite Module<a name="Chapter18"></a>
